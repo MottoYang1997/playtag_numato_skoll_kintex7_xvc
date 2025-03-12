@@ -33,8 +33,11 @@ class Jtagger(TemplateStrings.mix_me_in()):
         config.add_defaults(XvcDefaults(config.CABLE_NAME))
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Ask the network driver to send packets and acks immediately
-        sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
-        sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        try:
+            sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
+            sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        except:
+            pass
         hostport = (config.XVC_HOST_NAME, config.XVC_PORT_NUM)
         print('\nConnecting to %s:%s...' % hostport)
         print(config)

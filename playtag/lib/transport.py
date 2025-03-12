@@ -72,13 +72,16 @@ def connection(cmdprocess, procname, address, run=True, logpackets=True, logger=
         def setup(self):
             logger("Connected to %s:%s -- now serving %s" % (self.client_address + (procname,)))
             # Ask the network driver to send packets and acks immediately
-            self.request.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
-            self.request.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-            # Only handle this one request at a time.
-            # (In theory, we could get more than one request, but the goal here
-            # is to let the slow human know as soon as possible that the socket
-            # is occupied, so it's no big deal.)
-            self.server.socket.shutdown(socket.SHUT_RDWR)
+            try:
+                self.request.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
+                self.request.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+                # Only handle this one request at a time.
+                # (In theory, we could get more than one request, but the goal here
+                # is to let the slow human know as soon as possible that the socket
+                # is occupied, so it's no big deal.)
+                self.server.socket.shutdown(socket.SHUT_RDWR)
+            except:
+                pass
             self.server.socket.close()
             self.server_closed = True
 

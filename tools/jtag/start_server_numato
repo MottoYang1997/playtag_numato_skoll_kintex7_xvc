@@ -1,0 +1,13 @@
+# For Skoll board, the following signals are connected:
+# TCK = BDBUS0
+# TDI = BDBUS1
+# TDO = BDBUS2
+# TMS = BDBUS3
+# RST = BDBUS7
+
+# FTDI_GPIO_MASK -> Output GPIO Pins
+# FTDI_GPIO_OUT=0x08 Initial State of FT2232 GPIO
+# TMS high when idle  0b00001000
+# RST low when idle   0b00000000
+
+./xilinx_xvc.py ftdi 'Skoll Kintex 7 FPGA Module B' FTDI_GPIO_MASK=0x8B FTDI_GPIO_OUT=0x08 FTDI_JTAG_FREQ=10000000
